@@ -12,10 +12,16 @@ copia es exactamente la que se selló. El documento nunca sale de tu equipo: sol
 | Carpeta | Qué contiene | Estado |
 |---|---|---|
 | `contracts/` | Contrato `SelloRegistry` (Solidity, Foundry), pruebas y scripts | Desplegado en Base Sepolia: [`0xCeCc456e339047bbA466536DFF9247449D12A3D1`](https://base-sepolia.blockscout.com/address/0xCeCc456e339047bbA466536DFF9247449D12A3D1) |
+| `lib/` | Librería compartida: huella, red, lectura, sellado y recibo (TypeScript, viem) | Hecha, con pruebas |
 | `web/` | Interfaz (Vite + React + TypeScript) en Firebase Hosting | PENDIENTE |
 | `functions/` | Función de sellado (Cloud Functions, viem) | PENDIENTE |
 
 ## Comprobar un sello sin esta web
+
+Con este repositorio: `npm install` y `npm run comprobar -- documento.pdf`.
+
+Sin nada de este repositorio:
+
 
 1. Calcula la huella: `sha256sum documento.pdf`.
 2. En el explorador de Base Sepolia, abre el contrato [`SelloRegistry`](https://base-sepolia.blockscout.com/address/0xCeCc456e339047bbA466536DFF9247449D12A3D1), pestaña de lectura,

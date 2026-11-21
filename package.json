@@ -1,0 +1,23 @@
+{
+  "name": "tapiador-sello",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "node --test \"lib/test/**/*.test.ts\"",
+    "typecheck": "tsc -p lib --noEmit",
+    "check": "npm run typecheck && npm test",
+    "abi:sync": "node scripts/sync-abi.mjs",
+    "comprobar": "node lib/cli/comprobar.ts"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=26"
+  }
+}

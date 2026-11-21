@@ -1,0 +1,13 @@
+{
+  "name": "@sello/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Huella, red, lectura y sellado del registro SelloRegistry. Código compartido por la web y las funciones.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "viem": "2.57.16"
+  }
+}

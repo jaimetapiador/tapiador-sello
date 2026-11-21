@@ -18,6 +18,7 @@ una cadena de bloques pública de prueba y cualquiera puede comprobarla después
 
 ```
 contracts/   proyecto Foundry: SelloRegistry.sol, pruebas y script de despliegue
+lib/         @sello/core: huella, red, lectura, sellado y recibo (TypeScript sin compilar, viem)
 web/         (H3) interfaz estática: Vite + React + TypeScript + Tailwind
 functions/   (H4) Cloud Functions: sellado con viem
 ```
@@ -26,6 +27,9 @@ functions/   (H4) Cloud Functions: sellado con viem
 
 - Contratos (desde `contracts/`): `forge build` · `forge test -vv` · `forge fmt`.
 - Despliegue del contrato: ver `contracts/README.md`. Requiere `.env.local` en la raíz.
+- Raíz (Node de `.nvmrc`): `npm run check` (tipos + pruebas) · `npm run comprobar -- <fichero|huella>` ·
+  `npm run abi:sync` tras cambiar el contrato. Detalle en `lib/README.md`.
+- Versiones de dependencias fijadas y con al menos dos semanas de antigüedad (firma transacciones).
 
 ## Reglas de trabajo
 
