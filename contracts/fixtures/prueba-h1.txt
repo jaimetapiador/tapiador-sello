@@ -1,0 +1,3 @@
+Sello documental · sello.tapiador.eu
+Fichero de prueba del hito H1: primer sello en Base Sepolia.
+Contenido sin valor documental. Si cambias un solo carácter, la huella deja de coincidir.
