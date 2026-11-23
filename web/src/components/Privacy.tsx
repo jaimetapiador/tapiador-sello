@@ -1,13 +1,20 @@
 import { Fragment, useId } from "react";
 import { useI18n } from "../i18n.tsx";
-import { PRIVACY } from "../messages/privacy.ts";
+import { PRIVACY, PRIVACY_CONTACT } from "../messages/privacy.ts";
 import { SectionLabel } from "./ui.tsx";
 
-/** Muestra «PENDIENTE»/«PENDING» con la marca visual de dato sin confirmar, como en tapiador.eu. */
+/**
+ * Muestra «PENDIENTE»/«PENDING» con la marca visual de dato sin confirmar, como en tapiador.eu,
+ * y el correo de contacto como enlace.
+ */
 function withPending(text: string) {
-  const parts = text.split(/(PENDIENTE|PENDING)/);
+  const parts = text.split(new RegExp(`(PENDIENTE|PENDING|${PRIVACY_CONTACT.replace(/[.]/g, "\\.")})`));
   return parts.map((part, i) =>
-    part === "PENDIENTE" || part === "PENDING" ? (
+    part === PRIVACY_CONTACT ? (
+      <a key={i} className="link" href={`mailto:${PRIVACY_CONTACT}`}>
+        {part}
+      </a>
+    ) : part === "PENDIENTE" || part === "PENDING" ? (
       <span key={i} className="label rounded-sm border border-accent-2/60 px-1 text-accent-2">
         {part}
       </span>
@@ -27,7 +34,7 @@ export function Privacy() {
       <h1 id={`${id}-title`} className="mt-4 text-display">
         {content.title}
       </h1>
-      <p className="mt-4 font-sans text-accent-2">{content.draft}</p>
+      <p className="mt-6 max-w-prose text-lead">{content.intro}</p>
       <div className="mt-10 max-w-prose space-y-10">
         {content.sections.map((section) => (
           <section key={section.title}>

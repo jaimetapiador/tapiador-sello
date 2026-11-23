@@ -38,7 +38,8 @@ functions/   Cloud Functions (europe-west1): seal, mySeals, deleteMyData; se emp
 - SEO: metaetiquetas, canonical, hreflang y JSON-LD están en los HTML de `web/` (uno por página); `robots.txt` y
   `sitemap.xml` en `web/public/`. Página nueva = HTML nuevo + entrada en `vite.config.ts` + sitemap.
   La imagen para compartir se regenera según `web/og/README.md`.
-- Privacidad: `web/src/messages/privacy.ts` es un BORRADOR con PENDIENTE; Jaime debe revisarlo antes de publicar.
+- Privacidad: `web/src/messages/privacy.ts` (contacto jaime@tapiador.eu). Si cambian los datos, proveedores o plazos
+  (p. ej., nueva región, analítica, otro servicio), hay que actualizar el texto y la fecha.
 - Si se cambia un documento de `web/src/samples/`, hay que volver a sellarlo con `contracts/scripts/sellar.sh`.
 - Versiones de dependencias fijadas y con al menos dos semanas de antigüedad (firma transacciones).
 
