@@ -1,8 +1,8 @@
 import { explorerUrl } from "@sello/core";
-import { signOut, type User } from "firebase/auth";
+import type { User } from "firebase/auth";
 import { useEffect, useId, useState } from "react";
 import { network } from "../chain.ts";
-import { auth, callDeleteMyData, callMySeals, type MySeal } from "../firebase.ts";
+import { loadFirebase, type MySeal } from "../firebase.ts";
 import { useI18n } from "../i18n.tsx";
 import { SectionLabel, shortHash } from "./ui.tsx";
 
@@ -19,7 +19,8 @@ export function MySeals({ user, version }: { user: User; version: number }) {
   useEffect(() => {
     let cancelled = false;
     setState({ status: "loading" });
-    callMySeals()
+    loadFirebase()
+      .then(({ callMySeals }) => callMySeals())
       .then(({ data }) => !cancelled && setState({ status: "ready", seals: data.seals }))
       .catch(() => !cancelled && setState({ status: "error" }));
     return () => {
@@ -72,6 +73,7 @@ export function MySeals({ user, version }: { user: User; version: number }) {
                   setDeleting(true);
                   setDeleteError(false);
                   try {
+                    const { auth, callDeleteMyData, signOut } = await loadFirebase();
                     await callDeleteMyData();
                     await signOut(auth);
                     alert(m.mySeals.deleted);

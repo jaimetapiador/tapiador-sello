@@ -32,6 +32,8 @@ const CORS: CallableOptions["cors"] = [
   "https://sello.tapiador.eu",
   "https://sello-tapiador.web.app",
   "https://sello-tapiador.firebaseapp.com",
+  // Canales de vista previa de Firebase Hosting (firebase hosting:channel:deploy).
+  /^https:\/\/sello-tapiador--[a-z0-9-]+\.web\.app$/,
   /^http:\/\/(localhost|127\.0\.0\.1):\d+$/,
 ];
 

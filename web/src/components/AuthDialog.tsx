@@ -1,14 +1,5 @@
-import { FirebaseError } from "firebase/app";
-import {
-  GoogleAuthProvider,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { auth } from "../firebase.ts";
+import { firebaseErrorCode, loadFirebase } from "../firebase.ts";
 import { useI18n } from "../i18n.tsx";
 
 type Mode = "signIn" | "signUp";
@@ -37,11 +28,11 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
 
   // Los correos de Firebase (verificación, contraseña) salen en el idioma de la página.
   useEffect(() => {
-    auth.languageCode = locale;
-  }, [locale]);
+    if (open) void loadFirebase().then(({ auth }) => (auth.languageCode = locale));
+  }, [open, locale]);
 
   function errorText(e: unknown): string {
-    const code = e instanceof FirebaseError ? e.code : "";
+    const code = firebaseErrorCode(e);
     const errors = m.auth.errors as Record<string, string>;
     return errors[code] ?? m.auth.errors.generic;
   }
@@ -62,6 +53,8 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
   function onSubmit(event: FormEvent) {
     event.preventDefault();
     void run(async () => {
+      const { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification } =
+        await loadFirebase();
       if (mode === "signIn") {
         await signInWithEmailAndPassword(auth, email, password);
         onClose();
@@ -96,6 +89,7 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
         disabled={busy}
         onClick={() =>
           void run(async () => {
+            const { auth, signInWithPopup, GoogleAuthProvider } = await loadFirebase();
             await signInWithPopup(auth, new GoogleAuthProvider());
             onClose();
           })
@@ -162,6 +156,7 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
             disabled={busy || !email}
             onClick={() =>
               void run(async () => {
+                const { auth, sendPasswordResetEmail } = await loadFirebase();
                 await sendPasswordResetEmail(auth, email).catch(() => undefined);
                 setNotice(m.auth.resetSent);
               })
@@ -171,7 +166,12 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
           </button>
         )}
       </div>
-      <p className="mt-5 text-xs text-muted">{m.auth.privacy}</p>
+      <p className="mt-5 text-xs text-muted">
+        {m.auth.privacy}{" "}
+        <a className="link" href={locale === "es" ? "/privacidad/" : "/en/privacy/"}>
+          {m.footer.privacy}
+        </a>
+      </p>
     </dialog>
   );
 }

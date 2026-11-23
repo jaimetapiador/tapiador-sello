@@ -7,7 +7,7 @@ import "./styles.css";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <I18nProvider locale={detectLocale()}>
-      <App />
+      <App page={document.body.dataset.page === "privacy" ? "privacy" : "home"} />
     </I18nProvider>
   </StrictMode>,
 );

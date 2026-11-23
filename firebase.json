@@ -1,21 +1,55 @@
 {
   "hosting": {
     "public": "web/dist",
-    "ignore": ["firebase.json", "**/.*"],
-    "predeploy": ["npm run build -w web"],
+    "ignore": [
+      "firebase.json",
+      "**/.*"
+    ],
+    "predeploy": [
+      "npm run build -w web"
+    ],
     "headers": [
       {
         "source": "**",
         "headers": [
-          { "key": "X-Content-Type-Options", "value": "nosniff" },
-          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-          { "key": "X-Frame-Options", "value": "DENY" },
-          { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()" }
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' https://apis.google.com; connect-src 'self' https://sepolia.base.org https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://europe-west1-sello-tapiador.cloudfunctions.net; frame-src https://sello-tapiador.firebaseapp.com https://accounts.google.com; img-src 'self' data:; style-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "DENY"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+          },
+          {
+            "key": "Strict-Transport-Security",
+            "value": "max-age=31536000"
+          },
+          {
+            "key": "Cross-Origin-Opener-Policy",
+            "value": "same-origin-allow-popups"
+          }
         ]
       },
       {
         "source": "/assets/**",
-        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
       }
     ]
   },
@@ -24,8 +58,18 @@
       "source": "functions",
       "codebase": "default",
       "runtime": "nodejs22",
-      "ignore": ["node_modules", ".git", "src", "build.mjs", "tsconfig.json", "*.local", "*.log"],
-      "predeploy": ["npm run build -w functions"]
+      "ignore": [
+        "node_modules",
+        ".git",
+        "src",
+        "build.mjs",
+        "tsconfig.json",
+        "*.local",
+        "*.log"
+      ],
+      "predeploy": [
+        "npm run build -w functions"
+      ]
     }
   ],
   "firestore": {
@@ -35,9 +79,18 @@
   },
   "emulators": {
     "singleProjectMode": true,
-    "auth": { "port": 9099 },
-    "functions": { "port": 5001 },
-    "firestore": { "port": 8080 },
-    "ui": { "enabled": true, "port": 4000 }
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    }
   }
 }

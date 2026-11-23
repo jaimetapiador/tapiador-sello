@@ -1,9 +1,8 @@
 import { waitForSeal, type Hash, type SealConfirmation } from "@sello/core";
-import { sendEmailVerification, type User } from "firebase/auth";
-import { FirebaseError } from "firebase/app";
+import type { User } from "firebase/auth";
 import { useId, useState } from "react";
 import { network, reader } from "../chain.ts";
-import { USER_DAILY_LIMIT, auth, callSeal } from "../firebase.ts";
+import { USER_DAILY_LIMIT, firebaseErrorCode, loadFirebase } from "../firebase.ts";
 import { useI18n } from "../i18n.tsx";
 
 type Phase = "idle" | "submitting" | "confirming" | "error";
@@ -64,6 +63,7 @@ export function SealBox({
             className="btn btn-ghost"
             disabled={resent}
             onClick={async () => {
+              const { sendEmailVerification } = await loadFirebase();
               await sendEmailVerification(user).catch(() => undefined);
               setResent(true);
             }}
@@ -79,6 +79,7 @@ export function SealBox({
     setError(null);
     setPhase("submitting");
     try {
+      const { callSeal } = await loadFirebase();
       const { data } = await callSeal({ hash });
       setPhase("confirming");
       const confirmation = await waitForSeal(reader, network, data.transaction, { timeoutMs: 90_000 });
@@ -91,14 +92,15 @@ export function SealBox({
   }
 
   function errorText(e: unknown): string {
-    if (!(e instanceof FirebaseError)) return m.seal.errors.generic;
-    const details = (e as FirebaseError & { details?: { reason?: string; limit?: number } }).details;
+    const code = firebaseErrorCode(e);
+    if (!code) return m.seal.errors.generic;
+    const details = (e as { details?: { reason?: string; limit?: number } }).details;
     const reason = details?.reason;
     if (reason === "user-quota") return fill(m.seal.errors["user-quota"], { limit: details?.limit ?? USER_DAILY_LIMIT });
     if (reason === "global-quota") return m.seal.errors["global-quota"];
     if (reason === "email-not-verified") return m.seal.errors["email-not-verified"];
-    if (e.code === "functions/already-exists") return m.seal.errors["already-exists"];
-    if (e.code === "functions/unauthenticated") return m.seal.errors.unauthenticated;
+    if (code === "functions/already-exists") return m.seal.errors["already-exists"];
+    if (code === "functions/unauthenticated") return m.seal.errors.unauthenticated;
     return m.seal.errors.generic;
   }
 
@@ -120,7 +122,7 @@ export function SealBox({
         </label>
       </div>
       <p className="mt-3 text-sm text-muted">{fill(m.seal.quota, { limit: USER_DAILY_LIMIT })}</p>
-      <button type="button" className="btn btn-primary mt-4" disabled={!consent || busy || !auth.currentUser} onClick={() => void submit()}>
+      <button type="button" className="btn btn-primary mt-4" disabled={!consent || busy} onClick={() => void submit()}>
         {m.seal.submit}
       </button>
       <div aria-live="polite" className="mt-3 font-sans text-sm">

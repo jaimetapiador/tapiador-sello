@@ -25,6 +25,7 @@ export {
   submitSeal,
   waitForSeal,
   type SealConfirmation,
+  type Reader,
   type SealRecord,
 } from "./registry.ts";
 export {

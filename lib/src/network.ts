@@ -1,5 +1,18 @@
-import type { Address, Chain, Hex } from "viem";
-import { baseSepolia } from "viem/chains";
+import { defineChain, type Address, type Chain, type Hex } from "viem";
+
+/**
+ * Base Sepolia con lo mínimo. La definición de viem/chains incluye los formatos y serializadores
+ * propios de OP Stack (transacciones de depósito, comisiones de L1), que aquí no se usan y pesan
+ * mucho en el navegador. Para leer, y para enviar transacciones EIP-1559 normales, basta con esto.
+ */
+const baseSepolia = defineChain({
+  id: 84_532,
+  name: "Base Sepolia",
+  nativeCurrency: { name: "Sepolia Ether", symbol: "ETH", decimals: 18 },
+  rpcUrls: { default: { http: ["https://sepolia.base.org"] } },
+  blockExplorers: { default: { name: "Blockscout", url: "https://base-sepolia.blockscout.com" } },
+  testnet: true,
+});
 
 /**
  * Todo lo que depende de la red vive aquí: cambiar de red (o añadir otra) es configuración.

@@ -8,6 +8,7 @@ import { after, before, describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 import { createWalletClient, http, zeroAddress, type Hex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
+import { getChainId, waitForTransactionReceipt } from "viem/actions";
 import { foundry } from "viem/chains";
 import {
   AlreadySealedError,
@@ -63,7 +64,7 @@ describe("registro en una cadena local", { skip }, () => {
     const probe = createReader(LOCAL, RPC);
     for (let i = 0; ; i++) {
       try {
-        await probe.getChainId();
+        await getChainId(probe);
         break;
       } catch (error) {
         if (i > 50) throw error;
@@ -74,7 +75,7 @@ describe("registro en una cadena local", { skip }, () => {
     const { bytecode } = JSON.parse(readFileSync(artifactPath, "utf8")) as { bytecode: { object: Hex } };
     const deployer = wallet(KEY_0);
     const tx = await deployer.deployContract({ abi: selloRegistryAbi, bytecode: bytecode.object });
-    const receipt = await probe.waitForTransactionReceipt({ hash: tx });
+    const receipt = await waitForTransactionReceipt(probe, { hash: tx });
     network = { ...LOCAL, registry: receipt.contractAddress!, deployBlock: receipt.blockNumber };
   });
 

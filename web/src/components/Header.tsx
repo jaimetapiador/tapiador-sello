@@ -1,6 +1,13 @@
-import { signOut, type User } from "firebase/auth";
-import { auth } from "../firebase.ts";
+import type { User } from "firebase/auth";
+import { loadFirebase } from "../firebase.ts";
 import { useI18n } from "../i18n.tsx";
+
+/** Misma página en el otro idioma. */
+function otherLanguageHref(locale: "es" | "en"): string {
+  const privacy = document.body.dataset.page === "privacy";
+  if (locale === "es") return privacy ? "/en/privacy/" : "/en/";
+  return privacy ? "/privacidad/" : "/";
+}
 
 export function Header({ user, onSignIn }: { user: User | null | undefined; onSignIn: () => void }) {
   const { m, locale } = useI18n();
@@ -14,7 +21,7 @@ export function Header({ user, onSignIn }: { user: User | null | undefined; onSi
         <nav className="flex flex-wrap items-center gap-3 font-sans text-sm" aria-label={m.header.account}>
           <a
             className="link"
-            href={m.header.otherLanguageHref}
+            href={otherLanguageHref(locale)}
             hrefLang={locale === "es" ? "en" : "es"}
             lang={locale === "es" ? "en" : "es"}
           >
@@ -25,7 +32,7 @@ export function Header({ user, onSignIn }: { user: User | null | undefined; onSi
               <span className="max-w-[16rem] truncate text-muted" title={user.email ?? undefined}>
                 {user.email}
               </span>
-              <button type="button" className="btn btn-ghost" onClick={() => signOut(auth)}>
+              <button type="button" className="btn btn-ghost" onClick={() => void loadFirebase().then(({ auth, signOut }) => signOut(auth))}>
                 {m.header.signOut}
               </button>
             </>

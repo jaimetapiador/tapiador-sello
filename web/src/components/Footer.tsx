@@ -16,10 +16,9 @@ export function Footer() {
         <a className="link" href="https://github.com/jaimetapiador/tapiador-sello" target="_blank" rel="noopener noreferrer">
           {m.footer.code}
         </a>
-        {/* PENDIENTE: política de privacidad del sello. */}
-        <span className="text-muted">
-          {m.footer.privacy} · <span className="label text-accent-2">{m.footer.pending}</span>
-        </span>
+        <a className="link" href={locale === "es" ? "/privacidad/" : "/en/privacy/"}>
+          {m.footer.privacy}
+        </a>
       </div>
     </footer>
   );

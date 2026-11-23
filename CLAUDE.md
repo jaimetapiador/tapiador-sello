@@ -33,6 +33,9 @@ functions/   Cloud Functions (europe-west1): seal, mySeals, deleteMyData; se emp
   Los emuladores leen `functions/.secret.local` y `functions/.env.local` (no versionados).
 - Firebase: proyecto `sello-tapiador`, Firestore `(default)` en eur3, funciones en europe-west1. La clave de la
   cuenta de la demo está en Secret Manager (`SELLO_PRIVATE_KEY`); los parámetros no secretos, en `functions/.env`.
+- Hosting: `firebase.json` define CSP, HSTS y COOP. Si la página empieza a usar otro origen (RPC, API…),
+  hay que añadirlo a `connect-src` o se bloqueará. Probar con `firebase emulators:start --only hosting`.
+- Privacidad: `web/src/messages/privacy.ts` es un BORRADOR con PENDIENTE; Jaime debe revisarlo antes de publicar.
 - Si se cambia un documento de `web/src/samples/`, hay que volver a sellarlo con `contracts/scripts/sellar.sh`.
 - Versiones de dependencias fijadas y con al menos dos semanas de antigüedad (firma transacciones).
 

@@ -1,17 +1,25 @@
 import {
   BaseError,
   ContractFunctionRevertedError,
-  createPublicClient,
+  createClient,
   http,
   parseEventLogs,
   type Account,
   type Address,
   type Chain,
+  type Client,
   type Hex,
-  type PublicClient,
   type Transport,
-  type WalletClient,
 } from "viem";
+// Acciones sueltas en vez de createPublicClient: así el empaquetador solo incluye lo que se usa
+// (createPublicClient arrastra todas las acciones, incluidas las de firmas, y triplica el peso en el navegador).
+import {
+  getContractEvents,
+  readContract,
+  simulateContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "viem/actions";
 import { selloRegistryAbi } from "./abi.ts";
 import type { Hash } from "./hash.ts";
 import type { SelloNetwork } from "./network.ts";
@@ -64,18 +72,19 @@ export class SealFailedError extends Error {
   }
 }
 
-type Reader = PublicClient<Transport, Chain | undefined>;
+/** Cliente mínimo de lectura (sin acciones precargadas). */
+export type Reader = Client<Transport, Chain | undefined>;
 
 /** Cliente de solo lectura. En el navegador usa el RPC público de la red. */
 export function createReader(network: SelloNetwork, rpcUrl: string = network.rpcUrl): Reader {
-  return createPublicClient({ chain: network.chain, transport: http(rpcUrl) });
+  return createClient({ chain: network.chain, transport: http(rpcUrl) });
 }
 
 const fromSeconds = (seconds: number | bigint) => new Date(Number(seconds) * 1000);
 
 /** Consulta una huella en el registro. Lectura gratuita: no necesita cuenta ni servidor. */
 export async function readSeal(client: Reader, network: SelloNetwork, hash: Hash): Promise<SealRecord> {
-  const [timestamp, blockNumber, sealer] = await client.readContract({
+  const [timestamp, blockNumber, sealer] = await readContract(client, {
     address: network.registry,
     abi: selloRegistryAbi,
     functionName: "sealOf",
@@ -95,7 +104,7 @@ export async function findSealTransaction(
   hash: Hash,
   blockNumber: bigint,
 ): Promise<Hex | null> {
-  const logs = await client.getContractEvents({
+  const logs = await getContractEvents(client, {
     address: network.registry,
     abi: selloRegistryAbi,
     eventName: "Sealed",
@@ -122,7 +131,7 @@ function alreadySealedFrom(error: unknown): { sealedAt: Date } | null {
  * Lanza AlreadySealedError si la huella ya tenía sello.
  */
 export async function submitSeal(
-  wallet: WalletClient<Transport, Chain | undefined, Account>,
+  wallet: Client<Transport, Chain | undefined, Account>,
   client: Reader,
   network: SelloNetwork,
   hash: Hash,
@@ -131,7 +140,7 @@ export async function submitSeal(
   if (existing.sealed) throw new AlreadySealedError(hash, existing.sealedAt);
 
   try {
-    const { request } = await client.simulateContract({
+    const { request } = await simulateContract(client, {
       account: wallet.account,
       address: network.registry,
       abi: selloRegistryAbi,
@@ -139,7 +148,7 @@ export async function submitSeal(
       args: [hash],
       chain: network.chain,
     });
-    return await wallet.writeContract(request);
+    return await writeContract(wallet, request);
   } catch (error) {
     const already = alreadySealedFrom(error);
     if (already) throw new AlreadySealedError(hash, already.sealedAt);
@@ -154,7 +163,7 @@ export async function waitForSeal(
   transaction: Hex,
   options: { timeoutMs?: number } = {},
 ): Promise<SealConfirmation> {
-  const receipt = await client.waitForTransactionReceipt({
+  const receipt = await waitForTransactionReceipt(client, {
     hash: transaction,
     timeout: options.timeoutMs ?? 60_000,
   });
