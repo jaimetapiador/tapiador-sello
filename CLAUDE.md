@@ -40,6 +40,11 @@ functions/   Cloud Functions (europe-west1): seal, mySeals, deleteMyData; se emp
   La imagen para compartir se regenera según `web/og/README.md`.
 - Privacidad: `web/src/messages/privacy.ts` (contacto jaime@tapiador.eu). Si cambian los datos, proveedores o plazos
   (p. ej., nueva región, analítica, otro servicio), hay que actualizar el texto y la fecha.
+- Cookies (skill consentimiento-cookies): núcleo en `lib/src/consent/` (config: categorías, proveedores, GA4
+  G-BBHSTC0MR1), aviso/panel/cargador en `web/src/components/consent/`, textos e inventario en
+  `web/src/consent/texts.ts`. GA4 solo se carga con consentimiento (Consent Mode v2 básico). Las decisiones se
+  registran con la función `consentLog` (reescritura /api/consent en Hosting) en `consentLogs` (TTL 3 años).
+  Proveedor o cookie nueva = config.ts + texts.ts (inventario) + CSP + política de privacidad.
 - Si se cambia un documento de `web/src/samples/`, hay que volver a sellarlo con `contracts/scripts/sellar.sh`.
 - Versiones de dependencias fijadas y con al menos dos semanas de antigüedad (firma transacciones).
 

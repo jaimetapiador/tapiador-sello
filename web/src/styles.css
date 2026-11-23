@@ -129,6 +129,18 @@
   }
 }
 
+/* Entrada del aviso de cookies (se anula con prefers-reduced-motion). */
+@keyframes cc-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @layer components {
   /* Etiqueta de sección en monoespaciada: «/ 01 — Huella». */
   .label {

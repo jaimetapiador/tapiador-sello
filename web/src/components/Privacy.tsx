@@ -1,6 +1,8 @@
-import { Fragment, useId } from "react";
+import { Fragment, useEffect, useId } from "react";
 import { useI18n } from "../i18n.tsx";
 import { PRIVACY, PRIVACY_CONTACT } from "../messages/privacy.ts";
+import { ConsentId, CookieSettingsButton } from "./consent/ConsentUi.tsx";
+import { CookieTable } from "./consent/CookieTable.tsx";
 import { SectionLabel } from "./ui.tsx";
 
 /**
@@ -28,6 +30,12 @@ export function Privacy() {
   const { locale } = useI18n();
   const id = useId();
   const content = PRIVACY[locale];
+
+  // La página se pinta en el cliente: el navegador no encuentra el ancla (#cookies) al cargar.
+  useEffect(() => {
+    const target = window.location.hash ? document.getElementById(window.location.hash.slice(1)) : null;
+    target?.scrollIntoView();
+  }, []);
   return (
     <article className="mx-auto max-w-content px-4 py-14 sm:px-8" aria-labelledby={`${id}-title`}>
       <SectionLabel>{withPending(content.updated)}</SectionLabel>
@@ -46,6 +54,19 @@ export function Privacy() {
             ))}
           </section>
         ))}
+        <section id="cookies" className="scroll-mt-8">
+          <h2 className="text-h3">{content.cookies.title}</h2>
+          {content.cookies.paragraphs.map((p) => (
+            <p key={p} className="mt-3">
+              {p}
+            </p>
+          ))}
+          <ConsentId />
+          <CookieSettingsButton className="btn btn-ghost mt-4">{content.cookies.settingsButton}</CookieSettingsButton>
+        </section>
+      </div>
+      <div className="mt-8 max-w-4xl">
+        <CookieTable />
       </div>
     </article>
   );

@@ -15,7 +15,7 @@
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; script-src 'self' https://apis.google.com; connect-src 'self' https://sepolia.base.org https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://europe-west1-sello-tapiador.cloudfunctions.net; frame-src https://sello-tapiador.firebaseapp.com https://accounts.google.com; img-src 'self' data:; style-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+            "value": "default-src 'self'; script-src 'self' https://apis.google.com https://*.googletagmanager.com; connect-src 'self' https://sepolia.base.org https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://europe-west1-sello-tapiador.cloudfunctions.net https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src https://sello-tapiador.firebaseapp.com https://accounts.google.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; style-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
           },
           {
             "key": "X-Content-Type-Options",
@@ -52,6 +52,22 @@
           }
         ]
       }
+    ],
+    "rewrites": [
+      {
+        "source": "/api/consent",
+        "function": {
+          "functionId": "consentLog",
+          "region": "europe-west1"
+        }
+      },
+      {
+        "source": "/api/consent/",
+        "function": {
+          "functionId": "consentLog",
+          "region": "europe-west1"
+        }
+      }
     ]
   },
   "functions": [
@@ -76,7 +92,8 @@
   "firestore": {
     "database": "(default)",
     "location": "eur3",
-    "rules": "firestore.rules"
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   },
   "emulators": {
     "singleProjectMode": true,

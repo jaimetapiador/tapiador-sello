@@ -5,7 +5,8 @@
   "description": "Huella, red, lectura y sellado del registro SelloRegistry. Código compartido por la web y las funciones.",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./consent": "./src/consent/index.ts"
   },
   "dependencies": {
     "viem": "2.57.16"

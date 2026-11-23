@@ -1,6 +1,7 @@
 import { explorerUrl } from "@sello/core";
 import { network } from "../chain.ts";
 import { useI18n } from "../i18n.tsx";
+import { CookieSettingsButton } from "./consent/ConsentUi.tsx";
 
 export function Footer() {
   const { m, locale } = useI18n();
@@ -19,6 +20,7 @@ export function Footer() {
         <a className="link" href={locale === "es" ? "/privacidad/" : "/en/privacy/"}>
           {m.footer.privacy}
         </a>
+        <CookieSettingsButton />
       </div>
     </footer>
   );

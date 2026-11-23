@@ -5,12 +5,21 @@ import {
   normalizeHash,
   submitSeal,
 } from "@sello/core";
+import {
+  OPTIONAL_CATEGORIES,
+  classifyChoices,
+  consentConfig,
+  dayKey,
+  deviceFromUserAgent,
+  isBot,
+  parseConsentEvent,
+} from "@sello/core/consent";
 import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
-import { FieldValue, getFirestore } from "firebase-admin/firestore";
+import { FieldValue, Timestamp, getFirestore } from "firebase-admin/firestore";
 import { setGlobalOptions } from "firebase-functions/v2";
 import { logger } from "firebase-functions";
-import { HttpsError, onCall, type CallableOptions, type CallableRequest } from "firebase-functions/v2/https";
+import { HttpsError, onCall, onRequest, type CallableOptions, type CallableRequest } from "firebase-functions/v2/https";
 import { defineInt, defineSecret, defineString } from "firebase-functions/params";
 import { createWalletClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
@@ -144,4 +153,66 @@ export const deleteMyData = onCall({ cors: CORS }, async (request) => {
   await getAuth().deleteUser(uid);
   logger.info("Cuenta borrada", { uid, seals: snapshot.size });
   return { deleted: snapshot.size };
+});
+
+/**
+ * Registro de decisiones de cookies (prueba del consentimiento, art. 7.1 RGPD). Servida en el
+ * mismo dominio con una reescritura de Hosting (/api/consent), así el navegador la llama con
+ * sendBeacon sin CORS. Anónima: guarda un id aleatorio, la elección, la versión, el tipo de
+ * dispositivo y la ruta. Nunca la IP ni el user agent completo. Siempre responde 204.
+ *
+ *   consentStats/{AAAA-MM-DD}  contadores diarios (impresiones, aceptadas, rechazadas…)
+ *   consentLogs/{auto}         una fila por decisión; se borra por TTL en `expireAt`
+ */
+export const consentLog = onRequest({ maxInstances: 2, concurrency: 1, cors: false }, async (req, res) => {
+  res.status(204);
+  try {
+    const ua = req.get("user-agent") ?? "";
+    const raw = typeof req.rawBody === "object" ? req.rawBody.toString("utf8") : "";
+    if (req.method !== "POST" || isBot(ua) || raw.length === 0 || raw.length > 2000) return void res.end();
+    const event = parseConsentEvent(JSON.parse(raw));
+    if (!event) return void res.end();
+
+    const device = deviceFromUserAgent(ua);
+    const date = dayKey();
+    const day = db.doc(`consentStats/${date}`);
+    const inc = FieldValue.increment(1);
+
+    if (event.type === "impression") {
+      await day.set({ date, impressions: inc, device: { [device]: { impressions: inc } } }, { merge: true });
+      return void res.end();
+    }
+
+    const outcome = classifyChoices(event.choices);
+    const granted = Object.fromEntries(OPTIONAL_CATEGORIES.filter((c) => event.choices[c]).map((c) => [c, inc]));
+    const batch = db.batch();
+    batch.set(
+      day,
+      {
+        date,
+        [outcome]: inc,
+        ...(event.isChange ? { changes: inc } : {}),
+        granted,
+        ui: { [event.ui]: inc },
+        device: { [device]: { [outcome]: inc } },
+      },
+      { merge: true },
+    );
+    batch.create(db.collection("consentLogs").doc(), {
+      consentId: event.consentId,
+      outcome,
+      choices: event.choices,
+      version: event.version,
+      ui: event.ui,
+      isChange: event.isChange,
+      device,
+      path: event.path,
+      createdAt: FieldValue.serverTimestamp(),
+      expireAt: Timestamp.fromMillis(Date.now() + consentConfig.logRetentionDays * 86_400_000),
+    });
+    await batch.commit();
+  } catch (error) {
+    logger.error("Registro de consentimiento fallido", { error: String(error) });
+  }
+  res.end();
 });
