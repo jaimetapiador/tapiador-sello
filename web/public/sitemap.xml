@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://sello.tapiador.eu/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sello.tapiador.eu/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://sello.tapiador.eu/en/" />
+  </url>
+  <url>
+    <loc>https://sello.tapiador.eu/en/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sello.tapiador.eu/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://sello.tapiador.eu/en/" />
+  </url>
+  <url>
+    <loc>https://sello.tapiador.eu/privacidad/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sello.tapiador.eu/privacidad/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://sello.tapiador.eu/en/privacy/" />
+  </url>
+  <url>
+    <loc>https://sello.tapiador.eu/en/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sello.tapiador.eu/privacidad/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://sello.tapiador.eu/en/privacy/" />
+  </url>
+</urlset>

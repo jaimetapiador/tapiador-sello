@@ -5,6 +5,7 @@
       "firebase.json",
       "**/.*"
     ],
+    "trailingSlash": true,
     "predeploy": [
       "npm run build -w web"
     ],

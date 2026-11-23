@@ -1,0 +1,7 @@
+/* Estilos de la página 404 (fichero aparte: la CSP no admite estilos en línea). */
+html { background: #353330; color: #cccccc; font-family: Georgia, serif; }
+main { max-width: 40rem; margin: 18vh auto; padding: 0 1rem; }
+.label { font-family: ui-monospace, monospace; font-size: 0.75rem; letter-spacing: 0.08em; color: #d5af86; }
+h1 { font-weight: 300; font-size: clamp(2rem, 6vw, 3.5rem); color: #ffffff; line-height: 1.1; }
+a { color: #a4d7c7; }
+a:focus-visible { outline: 2px solid #a4d7c7; outline-offset: 3px; }

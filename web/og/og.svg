@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- Imagen para compartir (Open Graph). Se convierte a web/public/og.png; ver web/og/README.md. -->
+  <rect width="1200" height="630" fill="#353330"/>
+  <g transform="translate(1040 315) scale(0.78)" fill="none">
+    <circle r="190" stroke="#a4d7c7" stroke-width="3"/>
+    <circle r="160" stroke="#72716f" stroke-width="1.5" stroke-dasharray="4 6"/>
+    <circle r="118" stroke="#d5af86" stroke-width="2" stroke-dasharray="2 4"/>
+    <circle r="72" stroke="#a4d7c7" stroke-width="2"/>
+    <circle r="16" fill="#a4d7c7"/>
+  </g>
+  <text x="80" y="110" fill="#d5af86" font-family="Geist Mono" font-size="22" letter-spacing="3">/ SELLO.TAPIADOR.EU</text>
+  <text x="80" y="250" fill="#ffffff" font-family="Newsreader" font-weight="300" font-size="76">Sello documental</text>
+  <text x="80" y="330" fill="#a4d7c7" font-family="Newsreader" font-style="italic" font-weight="300" font-size="46">Comprueba que un documento</text>
+  <text x="80" y="390" fill="#a4d7c7" font-family="Newsreader" font-style="italic" font-weight="300" font-size="46">no ha cambiado.</text>
+  <text x="80" y="520" fill="#cccccc" font-family="Instrument Sans" font-size="26">Huella SHA-256 · cadena de bloques pública · demostrador</text>
+  <text x="80" y="560" fill="#a09e9a" font-family="Instrument Sans" font-size="22">Document seal · a tapiador.eu demo</text>
+</svg>
