@@ -19,8 +19,8 @@ una cadena de bloques pública de prueba y cualquiera puede comprobarla después
 ```
 contracts/   proyecto Foundry: SelloRegistry.sol, pruebas y script de despliegue
 lib/         @sello/core: huella, red, lectura, sellado y recibo (TypeScript sin compilar, viem)
-web/         (H3) interfaz estática: Vite + React + TypeScript + Tailwind
-functions/   (H4) Cloud Functions: sellado con viem
+web/         interfaz estática ES (/) y EN (/en/): Vite + React + TypeScript + Tailwind; textos en web/src/messages
+functions/   Cloud Functions (europe-west1): seal, mySeals, deleteMyData; se empaquetan con esbuild
 ```
 
 ## Comandos
@@ -29,6 +29,11 @@ functions/   (H4) Cloud Functions: sellado con viem
 - Despliegue del contrato: ver `contracts/README.md`. Requiere `.env.local` en la raíz.
 - Raíz (Node de `.nvmrc`): `npm run check` (tipos + pruebas) · `npm run comprobar -- <fichero|huella>` ·
   `npm run abi:sync` tras cambiar el contrato. Detalle en `lib/README.md`.
+- Web: `npm run dev` (contra producción) o `VITE_EMULATORS=1 npm run dev` con `npm run emulators` en otra terminal.
+  Los emuladores leen `functions/.secret.local` y `functions/.env.local` (no versionados).
+- Firebase: proyecto `sello-tapiador`, Firestore `(default)` en eur3, funciones en europe-west1. La clave de la
+  cuenta de la demo está en Secret Manager (`SELLO_PRIVATE_KEY`); los parámetros no secretos, en `functions/.env`.
+- Si se cambia un documento de `web/src/samples/`, hay que volver a sellarlo con `contracts/scripts/sellar.sh`.
 - Versiones de dependencias fijadas y con al menos dos semanas de antigüedad (firma transacciones).
 
 ## Reglas de trabajo

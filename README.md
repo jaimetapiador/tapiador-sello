@@ -13,8 +13,8 @@ copia es exactamente la que se selló. El documento nunca sale de tu equipo: sol
 |---|---|---|
 | `contracts/` | Contrato `SelloRegistry` (Solidity, Foundry), pruebas y scripts | Desplegado en Base Sepolia: [`0xCeCc456e339047bbA466536DFF9247449D12A3D1`](https://base-sepolia.blockscout.com/address/0xCeCc456e339047bbA466536DFF9247449D12A3D1) |
 | `lib/` | Librería compartida: huella, red, lectura, sellado y recibo (TypeScript, viem) | Hecha, con pruebas |
-| `web/` | Interfaz (Vite + React + TypeScript) en Firebase Hosting | PENDIENTE |
-| `functions/` | Función de sellado (Cloud Functions, viem) | PENDIENTE |
+| `web/` | Interfaz ES/EN (Vite + React + TypeScript + Tailwind) para Firebase Hosting | Hecha y probada en local; sin publicar |
+| `functions/` | Cloud Functions `seal`, `mySeals` y `deleteMyData` (europe-west1) | Desplegadas |
 
 ## Comprobar un sello sin esta web
 

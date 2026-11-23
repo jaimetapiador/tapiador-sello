@@ -85,6 +85,27 @@ export async function readSeal(client: Reader, network: SelloNetwork, hash: Hash
   return { sealed: true, hash, sealedAt: fromSeconds(timestamp), blockNumber: BigInt(blockNumber), sealer };
 }
 
+/**
+ * Busca la transacción que selló una huella. Como `sealOf` ya dice el bloque, basta con pedir los
+ * eventos `Sealed` de ese único bloque: funciona con cualquier RPC, sin índices ni API del explorador.
+ */
+export async function findSealTransaction(
+  client: Reader,
+  network: SelloNetwork,
+  hash: Hash,
+  blockNumber: bigint,
+): Promise<Hex | null> {
+  const logs = await client.getContractEvents({
+    address: network.registry,
+    abi: selloRegistryAbi,
+    eventName: "Sealed",
+    args: { hash },
+    fromBlock: blockNumber,
+    toBlock: blockNumber,
+  });
+  return logs[0]?.transactionHash ?? null;
+}
+
 /** Si el error es el revert AlreadySealed del contrato, devuelve la fecha del sello original. */
 function alreadySealedFrom(error: unknown): { sealedAt: Date } | null {
   if (!(error instanceof BaseError)) return null;

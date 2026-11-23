@@ -18,6 +18,8 @@ export interface SelloNetwork {
   readonly explorer: string;
   /** RPC público por defecto. Tiene límite de peticiones: el servidor puede usar otro. */
   readonly rpcUrl: string;
+  /** Cuenta con la que sella sello.tapiador.eu: permite distinguir sus sellos de los de terceros. */
+  readonly demoSealer: Address;
 }
 
 export const BASE_SEPOLIA: SelloNetwork = {
@@ -28,6 +30,7 @@ export const BASE_SEPOLIA: SelloNetwork = {
   deployBlock: 61_489_984n,
   explorer: "https://base-sepolia.blockscout.com",
   rpcUrl: "https://sepolia.base.org",
+  demoSealer: "0x29B6Cf9d90728d7694b3a3DdDba3da38314A7E83",
 };
 
 /** Red por defecto del demostrador. */

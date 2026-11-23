@@ -13,6 +13,7 @@ import {
   AlreadySealedError,
   buildReceipt,
   createReader,
+  findSealTransaction,
   readSeal,
   selloRegistryAbi,
   sha256,
@@ -47,6 +48,7 @@ const LOCAL: SelloNetwork = {
   deployBlock: 0n,
   explorer: "http://localhost",
   rpcUrl: RPC,
+  demoSealer: zeroAddress,
 };
 
 describe("registro en una cadena local", { skip }, () => {
@@ -97,6 +99,8 @@ describe("registro en una cadena local", { skip }, () => {
     assert.ok(record.sealed);
     assert.equal(record.blockNumber, seal.blockNumber);
     assert.equal(record.sealedAt.getTime(), seal.sealedAt.getTime());
+    assert.equal(await findSealTransaction(reader(), network, hash, record.blockNumber), tx);
+    assert.equal(await findSealTransaction(reader(), network, await sha256("otra"), record.blockNumber), null);
 
     const receipt = buildReceipt(network, seal);
     const check = { network, rpcUrl: RPC };

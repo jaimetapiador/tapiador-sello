@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/*
+ * Fuentes autoalojadas (sin peticiones a terceros): las mismas que tapiador.eu.
+ * Newsreader con eje de tamaño óptico, como en la web principal.
+ */
+@import "@fontsource-variable/newsreader/opsz.css";
+@import "@fontsource-variable/newsreader/opsz-italic.css";
+@import "@fontsource-variable/instrument-sans/index.css";
+@import "@fontsource-variable/geist-mono/index.css";
+
+/*
+ * Tokens copiados de tapiador-web/app/globals.css (docs/BRIEF.md, apartado 6, con ajustes AA).
+ * Si cambian allí, se actualizan aquí.
+ */
+@theme {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-bg: #353330;
+  --color-sunken: #2b2a27;
+  --color-surface: #4d4c49;
+  --color-strong: #ffffff;
+  --color-body: #cccccc;
+  --color-muted: #a09e9a;
+  --color-line: #72716f;
+  --color-line-strong: #8a8884;
+  --color-accent: #a4d7c7;
+  --color-accent-2: #d5af86;
+  --color-danger: #ed3d3d;
+  --color-danger-text: #ff8a80;
+
+  --text-display: clamp(2.6rem, 1.2rem + 5.6vw, 5.5rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.03em;
+  --text-h2: clamp(1.6rem, 1.25rem + 1.3vw, 2.4rem);
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.015em;
+  --text-h3: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+  --text-h3--line-height: 1.25;
+  --text-lead: clamp(1.2rem, 1.08rem + 0.5vw, 1.5rem);
+  --text-lead--line-height: 1.45;
+  --text-body: clamp(1.0625rem, 1.03rem + 0.15vw, 1.1875rem);
+  --text-body--line-height: 1.62;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.08em;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  --container-content: 72rem;
+  --container-prose: 40rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader Variable", ui-serif, Georgia, serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-bg);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-body);
+    font-family: var(--font-serif);
+    font-weight: 350;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    color: var(--color-strong);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  dialog::backdrop {
+    background: rgb(0 0 0 / 0.6);
+  }
+}
+
+@layer components {
+  /* Etiqueta de sección en monoespaciada: «/ 01 — Huella». */
+  .label {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
+    letter-spacing: var(--text-label--letter-spacing);
+    text-transform: uppercase;
+    font-weight: 450;
+  }
+
+  .accent-italic {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--color-accent);
+  }
+
+  /* Huella hexadecimal: se parte en cualquier punto sin desbordar. */
+  .hash {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.6rem 1.15rem;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.2;
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  /* Botón de acento: texto oscuro sobre menta (el blanco no da contraste AA). */
+  .btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+  }
+  .btn-primary:not(:disabled):hover {
+    background-color: var(--color-strong);
+  }
+  .btn-ghost {
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-strong);
+  }
+  .btn-ghost:not(:disabled):hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .field {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-md);
+    background-color: var(--color-sunken);
+    color: var(--color-strong);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+  }
+  .field:focus-visible {
+    border-color: var(--color-accent);
+  }
+
+  .link {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+  .link:hover {
+    color: var(--color-strong);
+  }
+
+  .panel {
+    border: 1px solid color-mix(in srgb, var(--color-line) 60%, transparent);
+    border-radius: var(--radius-md);
+    background-color: var(--color-sunken);
+  }
+}

@@ -20,3 +20,14 @@ dist/
 # Sistema
 .DS_Store
 contracts/broadcast/**/*.lock
+
+# Builds y secretos de Firebase
+web/dist/
+functions/dist/
+functions/.secret.local
+functions/.env.local
+.runtimeconfig.json
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+!functions/.env

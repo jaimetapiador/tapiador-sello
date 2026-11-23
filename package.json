@@ -4,14 +4,19 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "lib"
+    "lib",
+    "web",
+    "functions"
   ],
   "scripts": {
     "test": "node --test \"lib/test/**/*.test.ts\"",
-    "typecheck": "tsc -p lib --noEmit",
+    "typecheck": "tsc -p lib --noEmit && tsc -p web --noEmit && tsc -p functions --noEmit",
     "check": "npm run typecheck && npm test",
     "abi:sync": "node scripts/sync-abi.mjs",
-    "comprobar": "node lib/cli/comprobar.ts"
+    "comprobar": "node lib/cli/comprobar.ts",
+    "dev": "npm run dev -w web",
+    "build": "npm run build -w web && npm run build -w functions",
+    "emulators": "npm run build -w functions && firebase emulators:start --only auth,functions,firestore"
   },
   "devDependencies": {
     "@types/node": "26.6.6",

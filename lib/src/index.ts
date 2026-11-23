@@ -20,6 +20,7 @@ export {
   AlreadySealedError,
   SealFailedError,
   createReader,
+  findSealTransaction,
   readSeal,
   submitSeal,
   waitForSeal,

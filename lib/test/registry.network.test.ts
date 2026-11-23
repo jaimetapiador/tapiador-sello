@@ -6,6 +6,7 @@ import {
   BASE_SEPOLIA,
   buildReceipt,
   createReader,
+  findSealTransaction,
   readSeal,
   sha256,
   verifyReceipt,
@@ -21,6 +22,10 @@ describe("Base Sepolia", { skip, timeout: 30_000 }, () => {
     assert.ok(record.sealed);
     assert.equal(record.blockNumber, 61_490_258n);
     assert.equal(record.sealer, "0x29B6Cf9d90728d7694b3a3DdDba3da38314A7E83");
+    assert.equal(
+      await findSealTransaction(createReader(BASE_SEPOLIA), BASE_SEPOLIA, hash, record.blockNumber),
+      "0x1f9df40804909467d454af426d4fcbd15b1626559b0ee5d2f663fba7c5cfef2e",
+    );
 
     const receipt = buildReceipt(BASE_SEPOLIA, {
       hash,
