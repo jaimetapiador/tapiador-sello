@@ -4,7 +4,7 @@ pragma solidity 0.8.30;
 /// @title SelloRegistry
 /// @notice Registro público de huellas SHA-256 de documentos. Cada huella se sella una sola vez:
 ///         el primer sello prevalece y no se puede sobrescribir ni borrar.
-/// @dev Demostrador de sello.tapiador.eu. Cualquiera puede sellar; cada registro guarda la cuenta
+/// @dev Demo de sello.tapiador.eu. Cualquiera puede sellar; cada registro guarda la cuenta
 ///      que lo hizo, así que los sellos de la demo se distinguen por su cuenta.
 contract SelloRegistry {
     /// @dev Cabe en una sola posición de almacenamiento (48 + 48 + 160 bits).

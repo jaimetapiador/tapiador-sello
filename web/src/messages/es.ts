@@ -2,7 +2,7 @@
 export const es = {
   meta: {
     site: "Sello documental",
-    by: "Un demostrador de tapiador.eu",
+    by: "Una demo de tapiador.eu",
     skip: "Saltar al contenido",
   },
   header: {
@@ -13,10 +13,10 @@ export const es = {
     account: "Tu cuenta",
   },
   hero: {
-    label: "/ Demostrador · red de prueba",
+    label: "/ Demo · red de prueba",
     title: "Comprueba que un documento",
     titleAccent: "no ha cambiado.",
-    lead: "Calcula la huella de un documento en tu navegador, regístrala con fecha en una cadena de bloques pública y compruébala cuando quieras. El documento nunca sale de tu equipo.",
+    lead: "Calcula la huella de un documento en tu navegador, regístrala con su fecha en una cadena de bloques pública y compruébala cuando quieras. El documento nunca sale de tu equipo. Todo ocurre en tu navegador. Solo sale la huella del documento.",
     steps: [
       {
         title: "Huella",
@@ -33,9 +33,9 @@ export const es = {
     ],
   },
   try: {
-    label: "/ 01 — Pruébalo",
-    title: "Elige un documento",
-    tabs: { file: "Tu fichero", samples: "Documentos de prueba", hash: "Huella o recibo" },
+    label: "/ 01 — Vamos a probarlo",
+    title: "Elige un documento:",
+    tabs: { file: "Sube un fichero", samples: "Documentos de prueba", hash: "Huella o recibo" },
   },
   file: {
     drop: "Arrastra un fichero aquí",
@@ -47,7 +47,7 @@ export const es = {
     selected: "Fichero",
   },
   samples: {
-    intro: "Tres documentos ficticios ya sellados. Compruébalos tal cual y verás su sello. Cambia una sola letra y la huella será otra: ya no constará, y podrás sellar tu versión.",
+    intro: "Te propongo tres documentos ficticios ya sellados. Compruébalos tal cual y verás su sello. Cambia una sola letra y la huella será otra: ya no constará como sellado, y podrás sellar tu versión.",
     names: { acta: "Acta de sesión", resolucion: "Resolución", certificado: "Certificado" },
     editLabel: "Contenido del documento (editable)",
     original: "Sin modificar",
@@ -61,7 +61,7 @@ export const es = {
     hashInvalid: "No es una huella SHA-256: deben ser 64 caracteres hexadecimales.",
     check: "Comprobar",
     receiptLabel: "O comprueba un recibo",
-    receiptHint: "El fichero JSON que descargaste al sellar. Si además eliges el documento, se comprueba que el recibo es suyo.",
+    receiptHint: "Es el fichero JSON que se descarga al sellar. Si además subes el documento original, se comprueba que el recibo es suyo.",
     receiptChoose: "Elegir recibo (.json)",
     documentChoose: "Elegir documento (opcional)",
     receiptInvalid: "Ese fichero no es un recibo válido: {detail}",
@@ -121,9 +121,9 @@ export const es = {
   },
   verify: {
     title: "Compruébalo fuera de esta web",
-    intro: "No hace falta fiarse de esta página. Con la huella puedes comprobar el sello por tu cuenta:",
-    explorerTx: "Ver la transacción en el explorador: aparece la llamada seal con esta huella.",
-    explorerRegistry: "Abrir el registro en el explorador: en «sealOf», pega la huella y consulta.",
+    intro: "No hace falta fiarse de esta página. Con la huella puedes comprobar el sello directamente en el buscador de la cadena de bloques:",
+    explorerTx: "Ver la transacción en el explorador de Base Sepolia: aparece la llamada seal con esta huella.",
+    explorerRegistry: "Abrir el registro en el explorador de Base Sepolia: en «sealOf», pega la huella y consulta.",
     copy: "Copiar huella",
     copied: "Copiada",
     commandsTitle: "Calcula la huella de tu copia y compárala:",
@@ -179,12 +179,12 @@ export const es = {
     title: "Lo que conviene saber",
     items: [
       {
-        title: "Es un demostrador",
-        text: "Usa Base Sepolia, una red de prueba: sus monedas no tienen valor y no hay garantía de que exista para siempre.",
+        title: "Esto es una demo",
+        text: "Este proyecto usa Base Sepolia, una red de PRUEBA: sus monedas no tienen valor y no hay garantía de que exista para siempre.",
       },
       {
         title: "No es un sello electrónico legal",
-        text: "No es un sello electrónico ni un sello de tiempo cualificado en el sentido del reglamento eIDAS. Demuestra la técnica, no tiene validez jurídica.",
+        text: "No es un sello electrónico ni un sello de tiempo cualificado en el sentido del reglamento eIDAS. Demuestra la tecnología, pero no tiene validez jurídica.",
       },
       {
         title: "Tu documento no sale de tu equipo",

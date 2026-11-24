@@ -1,6 +1,6 @@
 # sello.tapiador.eu: Sello documental
 
-Demostrador de integridad documental: se calcula la huella SHA-256 de un fichero en el navegador, se registra en
+Demo de integridad documental: se calcula la huella SHA-256 de un fichero en el navegador, se registra en
 una cadena de bloques pública de prueba y cualquiera puede comprobarla después. Plan completo y decisiones en
 `~/proyectos/tapiador-web/docs/SELLO.md` (léelo antes de proponer cambios de alcance).
 

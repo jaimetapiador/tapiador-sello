@@ -82,7 +82,7 @@ const es: ConsentTexts = {
     analytics: {
       title: "Analíticas",
       summary:
-        "Google Analytics nos dice, de forma agregada, qué páginas se visitan y desde dónde, para mejorar el demostrador. No se carga hasta que la aceptas.",
+        "Google Analytics nos dice, de forma agregada, qué páginas se visitan y desde dónde, para mejorar la demo. No se carga hasta que la aceptas.",
     },
   },
   vendors: {

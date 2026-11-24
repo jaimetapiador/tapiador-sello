@@ -26,12 +26,12 @@ const es: PrivacyContent = {
   title: "Privacidad",
   updated: "Última actualización: 23 de noviembre de 2026",
   intro:
-    "Este demostrador está diseñado para tratar los menos datos posibles: comprobar un documento no requiere cuenta y tu documento nunca sale de tu equipo. Aquí se explica qué datos se tratan si aceptas la analítica o creas una cuenta para sellar, y qué cookies usamos.",
+    "Esta demo está diseñado para tratar los menos datos posibles: comprobar un documento no requiere cuenta y tu documento nunca sale de tu equipo. Aquí se explica qué datos se tratan si aceptas la analítica o creas una cuenta para sellar, y qué cookies usamos.",
   sections: [
     {
       title: "Responsable",
       paragraphs: [
-        `Jaime Tapiador, a título personal, como autor de este demostrador sin ánimo de lucro. Contacto para cualquier cuestión de privacidad: ${PRIVACY_CONTACT}.`,
+        `Jaime Tapiador, a título personal, como autor de esta demo sin ánimo de lucro. Contacto para cualquier cuestión de privacidad: ${PRIVACY_CONTACT}.`,
       ],
     },
     {

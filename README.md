@@ -1,6 +1,6 @@
 # Sello documental · sello.tapiador.eu
 
-Demostrador de integridad documental. Calcula en tu navegador la huella SHA-256 de un documento, la registra con
+Demo de integridad documental. Calcula en tu navegador la huella SHA-256 de un documento, la registra con
 fecha en una cadena de bloques pública de prueba (Base Sepolia) y permite que cualquiera compruebe después que su
 copia es exactamente la que se selló. El documento nunca sale de tu equipo: solo viaja la huella.
 

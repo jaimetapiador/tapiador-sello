@@ -46,7 +46,7 @@ export const BASE_SEPOLIA: SelloNetwork = {
   demoSealer: "0x29B6Cf9d90728d7694b3a3DdDba3da38314A7E83",
 };
 
-/** Red por defecto del demostrador. */
+/** Red por defecto de la Demo. */
 export const DEFAULT_NETWORK = BASE_SEPOLIA;
 
 const NETWORKS: Readonly<Record<string, SelloNetwork>> = {
